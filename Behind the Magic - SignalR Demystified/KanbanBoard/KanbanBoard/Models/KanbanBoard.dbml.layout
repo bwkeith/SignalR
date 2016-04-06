@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 11, 8.5" name="KanbanBoard">
+  <DataContextMoniker Name="/KanbanBoardDataContext" />
+  <nestedChildShapes>
+    <classShape Id="f0dd10b7-9f1f-424b-8be5-f54bdedd0c86" absoluteBounds="0.5, 0.5, 2, 1.7708968098958331">
+      <DataClassMoniker Name="/KanbanBoardDataContext/Board" />
+      <nestedChildShapes>
+        <elementListCompartment Id="8a4269d2-77aa-409d-8fa9-84f408ac14ff" absoluteBounds="0.51499999999999968, 0.96, 1.9700000000000002, 1.2108968098958333" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="253270bc-3b4d-48e9-b6f4-3b68badece09" absoluteBounds="3.125, 0.5, 2, 2.3478011067708335">
+      <DataClassMoniker Name="/KanbanBoardDataContext/Card" />
+      <nestedChildShapes>
+        <elementListCompartment Id="cc06fa3d-1d2f-46f2-b703-0d6ba4f451e1" absoluteBounds="3.1400000000000006, 0.96, 1.9700000000000002, 1.7878011067708335" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <associationConnector edgePoints="[(2.5 : 1.38544840494792); (3.125 : 1.38544840494792)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+      <AssociationMoniker Name="/KanbanBoardDataContext/Board/Board_Card" />
+      <nodes>
+        <classShapeMoniker Id="f0dd10b7-9f1f-424b-8be5-f54bdedd0c86" />
+        <classShapeMoniker Id="253270bc-3b4d-48e9-b6f4-3b68badece09" />
+      </nodes>
+    </associationConnector>
+  </nestedChildShapes>
+</ordesignerObjectsDiagram>

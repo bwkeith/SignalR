@@ -1,0 +1,92 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+<div class="vertical-offset-30">
+    <div class="container">
+        <div class="row">
+            @foreach (var board in Model)
+            {
+                <div class="col-md-2">
+                    <div class="panel panel-primary" id="b-@board.Id">
+                        <div class="panel-heading">
+                            <h1 class="panel-title text-center">@board.Title</h1>
+                        </div>
+						<div class="panel-body" id="bb-@board.Id">
+							@foreach (var card in board.Cards)
+							{
+								<div class="panel panel-info" id="c-@card.Id">
+									<div class="panel-heading">
+										<h3 class="panel-title">@card.Title</h3>
+									</div>
+									<div class="panel-body">
+										@card.Description
+									</div>
+									<div class="panel-footer">
+										<button class="btn btn-link" onclick="demote(@card.Id);">
+											<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+										</button>
+										&nbsp;
+										<button class="btn btn-link" onclick="promote(@card.Id);">
+											<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+										</button>
+									</div>
+								</div>
+							}
+						</div>
+
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    <script src="~/Scripts/jquery.signalR-2.2.0.min.js"></script>
+    <script src="~/signalr/hubs"></script>
+    <script>
+		var isCardOperationsEnabled = false;
+		var cardHub = $.connection.cardHub;
+
+		$(function () {
+			cardHub.client.onCardChanged = function(cardId, propertyName, oldValue, newValue) {
+				console.log('received onCardChanged(%i, %s, %i, %i)', cardId, propertyName, oldValue, newValue);
+
+				if (propertyName == 'BoardId') {
+					// board changed, move card
+					var newBoard = $('#bb-' + newValue);
+					var card = $('#c-' + cardId);
+					newBoard.prepend(card);
+				}
+			};
+
+            // chrome does not support WebSockets with Windows Authentication, use LongPolling instead
+			$.connection.hub.start({ transport: 'longPolling' }).done(function () {
+				console.log('$.connection.hub.start.done');
+
+            	isCardOperationsEnabled = true;
+            });
+		});
+
+		function demote(cardId) {
+			console.log('demote (%i)', cardId);
+			
+			if (isCardOperationsEnabled) {
+				console.log('sending cardHub.server.demote(%i)', cardId);
+				
+				cardHub.server.demote(cardId);
+			}
+		};
+
+		function promote(cardId) {
+			console.log('promote(%i)', cardId);
+
+			if (isCardOperationsEnabled) {
+				console.log('sending cardHub.server.promote(%i)', cardId);
+				
+				cardHub.server.promote(cardId);
+			}
+		};
+    </script>
+}
